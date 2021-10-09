@@ -15,6 +15,12 @@ about = {
     "results": 'JSON',
 }
 
+safesearch_table = {
+    0: 'safesearch=off',
+    1: 'safesearch=moderate',
+    2: 'safesearch=strict'
+}
+
 categories = ['images']
 paging = False
 
@@ -22,35 +28,39 @@ paging = False
 base_url = 'https://search.brave.com'
 search_string = '/api/images?q={query}'
 
-
+# Do a request
 def request(query, params):
+    params['url'] = base_url +\
+        search_string.format(query=urlencode(
+                             {'q': query}))
 
-    params['url'] = base_url + search_string
-
-# Set safesearch mode based on user settings.
-# Safesearch is set with cookies and not with URL params.
-
-#    if params['safesearch'] == 1:
-#        params['cookies'] = {"cookie": "safesearch:moderate"}
-
-#    elif params['safesearch'] == 2:
-#        params['cookies'] = {"cookie": "safesearch:strict"}
+    # Set the header "cookie", a str
+    # based on safesearch_table
+    # Lang could be something like this:
+    # "Cookie": country=ar; safesearch=strict
+    params['headers'].update({
+       "Cookie": safesearch_table[params['safesearch']],
+})
 
     return params
+
 
 
 def response(resp):
     results = []
 
     json_data = loads(resp.text)
+    # Look for JSON key-values and append to results
     for result in json_data['results']:
 
         results.append({
             'template': 'images.html',
             'url': result['url'],
+            'source': result['source'],
             'title': result['title'],
             'img_src': result['properties']['url'],
-            'thumbnail_src': result['thumbnail']['src']
+            'thumbnail_src': result['properties']['resized'],
+            'img_format': result['properties']['format']
         })
 
     return results
