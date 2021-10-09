@@ -5,7 +5,7 @@ Brave Search (Images) : Images from Brave
 
 from json import loads
 from urllib.parse import urlencode
-from searx import settings
+from datetime import datetime
 
 about = {
     "website": 'https://search.brave.com',
@@ -52,12 +52,17 @@ def response(resp):
     json_data = loads(resp.text)
     # Look for JSON key-values and append to results
     for result in json_data['results']:
-
+        
+        # Get the published date
+        date = datetime.fromisoformat(result['page_age'][:-2])
+        
+        # Append results
         results.append({
             'template': 'images.html',
             'url': result['url'],
             'source': result['source'],
             'title': result['title'],
+            'publishedDate': date,
             'img_src': result['properties']['url'],
             'thumbnail_src': result['properties']['resized'],
             'img_format': result['properties']['format']
