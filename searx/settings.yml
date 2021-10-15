@@ -1241,6 +1241,19 @@ engines:
     shortcut : ud
     disabled : True
 
+  - name : urbandictionary api
+    shortcut : udapi
+    engine : json_engine
+    paging : False
+    categories : general
+    timeout : 2.5
+    search_url : https://api.urbandictionary.com/v0/define?term={query}
+    url_query : permalink
+    title_query : word
+    content_query : definition
+    # publishedDate : written_on
+    disabled : True
+
   - name : unsplash
     engine : unsplash
     disabled: True
