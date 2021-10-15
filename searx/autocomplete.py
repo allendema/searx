@@ -130,6 +130,22 @@ def qwant(query, lang):
 
     return results
 
+def urbandictionary(query, lang):
+    url = 'https://api.urbandictionary.com/v0/autocomplete-extra?{query}'
+    # Other endpoint http://api.urbandictionary.com/v0/autocomplete?term=
+    # More endpoints https://github.com/NightfallAlicorn/urban-dictionary/issues/8
+
+    resp = get(url.format(query=urlencode({'term': query})))
+
+    results = []
+
+    if resp.ok:
+        data = loads(resp.text)
+        for suggestion in data['results']:
+            results.append(suggestion['preview'])
+
+    return results
+
 def petalsearch(query, lang):
     # petalsearch autocompleter
     url = 'https://petalsearch.com/sugg_search?{query}'
@@ -162,6 +178,7 @@ backends = {'dbpedia': dbpedia,
             'whaleslide': whaleslide,
             'millionshort': millionshort,
             'qwant': qwant,
+            'urbandictionary': urbandictionary,
             'petalsearch': petalsearch,
             'wikipedia': wikipedia
             }
