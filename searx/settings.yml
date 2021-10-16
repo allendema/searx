@@ -409,6 +409,12 @@ engines:
     timeout: 3.0
     disabled : True
 
+  - name : brave images
+    engine : brave_images
+    shortcut : bri
+    timeout : 3.5
+    disabled : True
+
   - name : etools
     engine : etools
     shortcut : eto
