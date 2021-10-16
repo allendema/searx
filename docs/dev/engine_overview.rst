@@ -237,8 +237,10 @@ template                  is set to ``images.html``
 url                       string, url to the result site
 title                     string, title of the result *(partly implemented)*
 content                   *(partly implemented)*
+author                    string, name of photo-author
 publishedDate             :py:class:`datetime.datetime`,
                           time of publish *(partly implemented)*
+source                    string, url to the source
 img\_src                  string, url to the result image
 thumbnail\_src            string, url to a small-preview image
 ========================= =====================================================
@@ -251,6 +253,7 @@ result-parameter          information
 ========================= =====================================================
 template                  is set to ``videos.html``
 url                       string, url of the result
+author                    string, name of author
 title                     string, title of the result
 content                   *(not implemented yet)*
 publishedDate             :py:class:`datetime.datetime`, time of publish
