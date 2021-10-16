@@ -267,7 +267,7 @@ Engine settings
   search engine.
 
 ``shortcut`` :
-  Code used to execute bang requests (in this case using ``!bi`` or ``?bi``)
+  Name of the shortcut used to faster request an engine (in this case ``!bi`` is the shorcut)
 
 ``base_url`` : optional
   Part of the URL that should be stable across every request.  Can be useful to
@@ -296,8 +296,11 @@ Engine settings
   by using the full ISO code of language and country, like ``fr_FR``, ``en_US``,
   ``de_DE``.
 
-``weigth`` : default ``1``
+``weight`` : default ``1``
   Weighting of the results of this engine.
+  If an engine has a ``2.0`` weight, it means that the original score of the results
+  of this engine is doubled, with weight ``3.0`` the score is tripled,
+  with weight ``0.5`` the score is the half of the original.
 
 ``display_error_messages`` : default ``True``
   When an engine returns an error, the message is displayed on the user interface.
