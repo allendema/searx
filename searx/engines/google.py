@@ -270,7 +270,7 @@ def response(resp):
                 number_of_results = int(_digit)
                 results.append({'number_of_results': number_of_results})
             except Exception as e:  # pylint: disable=broad-except
-                logger.debug("did not 'number_of_results'")
+                logger.debug("did not find 'number_of_results'")
                 logger.error(e, exc_info=True)
 
     # parse results
