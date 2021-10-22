@@ -53,4 +53,11 @@ def response(resp):
                         'title': title,
                         'content': content})
 
+        # Get total number of results
+        for result in eval_xpath(dom, '//strong[5]'):
+
+            number_of_results = extract_text(result, './text()').replace(',', '')
+
+            results.append({'number_of_results': int(number_of_results)})
+           
     return results
