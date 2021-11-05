@@ -97,6 +97,7 @@ from searx.answerers import answerers
 from searx.network import stream as http_stream
 from searx.answerers import ask
 from searx.metrology.error_recorder import errors_per_engines
+from searx.settings_loader import get_default_settings_path
 
 # serve pages with HTTP/1.1
 from werkzeug.serving import WSGIRequestHandler
@@ -152,7 +153,7 @@ werkzeug_reloader = flask_run_development or (searx_debug and __name__ == "__mai
 # initialize the engines except on the first run of the werkzeug server.
 if not werkzeug_reloader\
    or (werkzeug_reloader and os.environ.get("WERKZEUG_RUN_MAIN") == "true"):
-    search_initialize(enable_checker=True)
+    search_initialize(enable_checker=True, check_network=True)
 
 babel = Babel(app)
 
@@ -1140,7 +1141,10 @@ def run():
         use_debugger=searx_debug,
         port=settings['server']['port'],
         host=settings['server']['bind_address'],
-        threaded=True
+        threaded=True,
+        extra_files=[
+            get_default_settings_path()
+        ],
     )
 
 
