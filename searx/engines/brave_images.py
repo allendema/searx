@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """
 Brave Search (Images) : Images from Brave
+
+supported_languages = ['de', 'en', 'fr', 'it', 'br'] and more
 """
 
 from json import loads
@@ -10,7 +12,7 @@ from datetime import datetime
 about = {
     "website": 'https://search.brave.com',
     "wikidata_id": 'Q22906900',
-    "use_official_api": True,
+    "use_official_api": False,
     "require_api_key": False,
     "results": 'JSON',
 }
@@ -23,10 +25,10 @@ safesearch_table = {
 
 categories = ['images']
 paging = False
-
+safesearch = True
 
 base_url = 'https://search.brave.com'
-search_string = '/api/images?q={query}'
+search_string = '/api/images?{query}'
 
 # Do a request
 def request(query, params):
@@ -38,21 +40,22 @@ def request(query, params):
     # based on safesearch_table
     # Lang could be something like this:
     # "Cookie": country=ar; safesearch=strict
-    params['headers'].update({
-       "Cookie": safesearch_table[params['safesearch']],
-})
 
+    params['headers'].update(
+       {"Cookie": safesearch_table[params['safesearch']]})
     return params
-
 
 
 def response(resp):
     results = []
 
     json_data = loads(resp.text)
-    # Look for JSON key-values and append to results
     for result in json_data['results']:
-        
+        try:
+            format = result['properties']['format']
+        except:
+            pass
+
         # Get the published date
         date = datetime.fromisoformat(result['page_age'][:-2])
         
@@ -65,7 +68,8 @@ def response(resp):
             'publishedDate': date,
             'img_src': result['properties']['url'],
             'thumbnail_src': result['properties']['resized'],
-            'img_format': result['properties']['format']
+            'img_format': format
         })
 
     return results
+
