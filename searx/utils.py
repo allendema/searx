@@ -331,7 +331,7 @@ def int_or_zero(num):
 
 
 def is_valid_lang(lang):
-    """Return language code and name if lang describe a language.
+    """Return language code and name if lang describes a language.
 
     Examples:
         >>> is_valid_lang('zz')
